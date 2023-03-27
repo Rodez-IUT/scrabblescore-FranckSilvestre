@@ -46,12 +46,23 @@ public class MotSurPlateau {
         // on double le score du mot
         // - si une des lettres est sur une case primée MOT_TRIPLE alors
         // on triple le score du mot
-        // - si un mot recouvre plus d'un case primée MOT_***, on cumule les primes.
+        // - si un mot recouvre plus d'une case primée MOT_***, on cumule les primes.
         int score = 0;
+        int coeffMot = 1;
         for(Map.Entry<Tuile,Prime> lettrePlacee: lettresSurPlateau.entrySet()) {
-            // ...
+            int coeffLettre = 1;
+            if (lettrePlacee.getValue() == Prime.LETTRE_DOUBLE) {
+                coeffLettre = 2;
+            } else if (lettrePlacee.getValue() == Prime.LETTRE_TRIPLE) {
+                coeffLettre = 3;
+            } else if (lettrePlacee.getValue() == Prime.MOT_DOUBLE) {
+                coeffMot *= 2;
+            } else if (lettrePlacee.getValue() == Prime.MOT_TRIPLE) {
+                coeffMot *= 3;
+            }
+            score += lettrePlacee.getKey().getPoints() * coeffLettre;
         }
-        return score;
+        return score * coeffMot ;
     }
 
 }
